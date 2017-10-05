@@ -53,10 +53,17 @@ export default {
     app.innerHTML = '';
     let ul = document.createElement('ul');
     ul.setAttribute('class', 'collection');
-
     users.forEach(user => {
-      ul.innerHTML += `<li id=${user.id} onclick="seeUser(this.id)" class="collection-item">${user.name}</li>`;
+      ul.innerHTML += `<li id=${user.id} onclick="seeUser(this.id)" class="collection-item">${user.name} (${user.userName}) </li>`;
     });
     app.appendChild(ul);
+  },
+  renderSelectedUser(user){
+    app.innerHTML = ''
+    app.innerHTML = `
+        <div class="container">
+            <img src=${user.image}>
+        </div>
+    `;
   }
 };

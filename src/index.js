@@ -27,6 +27,6 @@ window.onload = () => {
   });
   controller.renderUsers();
   window.seeUser = function seeUser(userID) {
-    console.log(userID);
+    controller.renderSelectedUser(userID);
   };
 };

@@ -37,5 +37,10 @@ export default {
     this.readAll((err, result) => {
       this.view.renderUsers(result);
     });
+  },
+  renderSelectedUser(id) {
+    this.model.read(id).then(user => {
+      this.view.renderSelectedUser(user);
+    });
   }
 };
