@@ -5,8 +5,8 @@ export default {
   },
 
   renderForm() {
-    (app.innerHTML = ''),
-      (app.innerHTML = `  <div class="row container">
+    app.innerHTML = '';
+    app.innerHTML = `  <div class="row container">
         <form id="userAction"class="col s12">
           <div class="row">
             <div class="input-field col s6">
@@ -47,6 +47,16 @@ export default {
       <input type="submit" value="submit" class="waves-effect waves-light btn">
       </div>
       </form>
-      </div>`);
+      </div>`;
+  },
+  renderUsers(users) {
+    app.innerHTML = '';
+    let ul = document.createElement('ul');
+    ul.setAttribute('class', 'collection');
+
+    users.forEach(user => {
+      ul.innerHTML += `<li id=${user.id} onclick="seeUser(this.id)" class="collection-item">${user.name}</li>`;
+    });
+    app.appendChild(ul);
   }
 };

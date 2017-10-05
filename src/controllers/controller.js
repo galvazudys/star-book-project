@@ -7,27 +7,35 @@ export default {
   setModel(model) {
     this.model = model;
   },
-  renderForm() {
+  renderForm(cb) {
     this.view.renderForm();
+    cb();
   },
   addUser(form) {
     this.model.create(form, (error, msg) => {
       if (error) {
-        console.log('error creating user');
+        console.log('error in creating user');
       } else {
         console.log(msg);
-        this.readAll();
+        this.readAll((err, result) => {
+          console.log(result);
+        });
       }
     });
   },
-  readAll() {
+  readAll(cb) {
     this.model.readAll((error, result) => {
       if (error) {
-        console.log(error);
+        cb(error, null);
       }
       {
-        console.log(result);
+        cb(null, result);
       }
+    });
+  },
+  renderUsers() {
+    this.readAll((err, result) => {
+      this.view.renderUsers(result);
     });
   }
 };
