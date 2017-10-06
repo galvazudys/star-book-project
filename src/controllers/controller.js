@@ -33,6 +33,12 @@ export default {
       }
     });
   },
+  deleteUser(id, cb) {
+    this.model.remove(id, (error, result) => {
+      if (error) throw error;
+      cb(null, result);
+    });
+  },
   renderUsers() {
     this.readAll((err, result) => {
       this.view.renderUsers(result);

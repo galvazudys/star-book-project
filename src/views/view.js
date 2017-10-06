@@ -73,7 +73,15 @@ export default {
         <div class="container row">
           <div class="col s6">
             <img src=${user.image}>
-            <div class="card-panel purple lighten-3"><strong>Name: </strong><span>${user.name}</span></div>
+            <div class="row">
+            <div class="col s12">
+            <div class="card-panel purple lighten-3"><strong>Name: </strong><span>${user.name}</span></div>            
+              <div class="input-field inline">
+                <input id="email" type="email" class="validate">
+                <label for="email" data-error="wrong" data-success="right">Email</label>
+              </div>
+            </div>
+          </div>
             <div class="card-panel purple lighten-3"><strong>User Name : </strong><span>${user.userName}</span></div>            
             <div class="card-panel purple lighten-3"><strong>Email: </strong> <span>${user.email}</span></div>            
             <div class="card-panel purple lighten-3"><strong>Age: </strong> <span>${user.age}</span></div>            
@@ -88,7 +96,7 @@ export default {
         <ul>
           <li class="waves-effect waves-light"><a onclick="goHome()" href="#!"><i class="material-icons">home</i></a></li>        
           <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">create</i></a></li>
-          <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">delete</i></a></li>
+          <li class="waves-effect   waves-light"id=${user.id}><a onclick="deleteUser(this)" href="#!"><i class="material-icons">delete</i></a></li>
         </ul>
       </div>
     `;

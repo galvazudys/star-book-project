@@ -35,4 +35,12 @@ window.onload = () => {
       });
     });
   };
+
+  window.deleteUser = e => {
+    const id = e.parentNode.id;
+    controller.deleteUser(id, (error, result) => {
+      if (error) throw error;
+      controller.renderUsers();
+    });
+  };
 };

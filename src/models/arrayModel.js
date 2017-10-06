@@ -75,10 +75,13 @@ export default {
     });
   },
   remove(entry_id, callback) {
-    const userIndex = this.db.find((user, index) => {
-      return user.id === entry_id ? index : null;
+    let indexToRemove;
+    this.db.find((user, index) => {
+      if (user.id === entry_id) {
+        indexToRemove = index;
+      }
     });
-    const confirm = this.db.splice(userIndex, 1);
+    const confirm = this.db.splice(indexToRemove, 1);
     callback(null, { message: `user have been removed`, object: confirm });
   },
   validate: function(obj, schema, callback) {
