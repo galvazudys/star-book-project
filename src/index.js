@@ -6,9 +6,6 @@ window.onload = () => {
   controller.setModel(user);
   controller.setView(view);
 
-  controller.readAll((err, res) => {
-    console.log(res);
-  });
   controller.renderUsers();
   window.seeUser = function seeUser(userID) {
     controller.renderSelectedUser(userID);
@@ -41,6 +38,33 @@ window.onload = () => {
     controller.deleteUser(id, (error, result) => {
       if (error) throw error;
       controller.renderUsers();
+    });
+  };
+
+  window.updateUser = e => {
+    const id = e.parentNode.id;
+    controller.readUser(id, (error, user) => {
+      if (error) throw error;
+      controller.renderUserUpdateForm(user, () => {
+        const form = document.getElementById('userAction');
+        form.addEventListener('submit', e => {
+          e.preventDefault();
+          const userForm = {
+            name: e.target[0].value,
+            userName: e.target[1].value,
+            email: e.target[2].value,
+            age: parseInt(e.target[3].value),
+            location: e.target[4].value,
+            hobies: e.target[5].value,
+            cardId: 'x',
+            image: e.target[6].value
+          };
+          controller.updateUser(id, userForm, (error, newUser) => {
+            if (error) throw error;
+            controller.renderSelectedUser(id);
+          });
+        });
+      });
     });
   };
 };

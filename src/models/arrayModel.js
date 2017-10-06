@@ -70,7 +70,7 @@ export default {
         });
         result.id = entry_id;
         this.db.splice(userIndex, 1, result);
-        callback(null, { message: success, value: result });
+        callback(null, { message: 'success', value: result });
       }
     });
   },

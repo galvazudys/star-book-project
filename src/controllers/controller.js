@@ -11,6 +11,11 @@ export default {
     this.view.renderForm();
     cb();
   },
+  readUser(id, cb) {
+    this.model.read(id).then(result => {
+      cb(null, result);
+    });
+  },
   addUser(form) {
     this.model.create(form, (error, msg) => {
       if (error) {
@@ -18,7 +23,7 @@ export default {
       } else {
         console.log(msg);
         this.readAll((err, result) => {
-          console.log(result);
+          if (err) throw err;
         });
       }
     });
@@ -33,11 +38,22 @@ export default {
       }
     });
   },
+  updateUser(id, user, cb) {
+    console.log(user, 'this is in update');
+    this.model.update(id, user, (error, result) => {
+      if (error) throw error;
+      cb(null, result);
+    });
+  },
   deleteUser(id, cb) {
     this.model.remove(id, (error, result) => {
       if (error) throw error;
       cb(null, result);
     });
+  },
+  renderUserUpdateForm(user, cb) {
+    this.view.renderUpdateUser(user);
+    cb();
   },
   renderUsers() {
     this.readAll((err, result) => {
