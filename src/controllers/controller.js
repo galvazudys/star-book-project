@@ -39,7 +39,6 @@ export default {
     });
   },
   updateUser(id, user, cb) {
-    console.log(user, 'this is in update');
     this.model.update(id, user, (error, result) => {
       if (error) throw error;
       cb(null, result);
