@@ -32,7 +32,6 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "faker": "^4.1.0",
-    "form-serialize": "^0.7.2"
+    "faker": "^4.1.0"
   }
 }
