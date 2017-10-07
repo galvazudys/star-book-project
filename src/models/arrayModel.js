@@ -62,14 +62,17 @@ export default {
   },
   update(entry_id, new_value, callback) {
     this.validate(new_value, this.schema, (error, result) => {
+      let indexToRemove;
       if (error) {
         throw new Error(error.message);
       } else {
-        const userIndex = this.db.find((user, index) => {
-          return user.id === entry_id ? index : null;
+        this.db.find((user, index) => {
+          if (user.id === entry_id) {
+            indexToRemove = index;
+          }
         });
         result.id = entry_id;
-        this.db.splice(userIndex, 1, result);
+        this.db.splice(indexToRemove, 1, result);
         callback(null, { message: 'success', value: result });
       }
     });
