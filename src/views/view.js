@@ -140,5 +140,61 @@ export default {
       </div>
       </form>
       </div>`;
+  },
+  renderUserThumbnails(thumbnails) {
+    app.innerHTML = '';
+    const row = document.createElement('div');
+    row.setAttribute('class', 'row');
+    thumbnails.forEach(item => {
+      row.innerHTML += `
+      <div class="col s3">
+        <div class="card">
+          <div class="card-image">
+            <img src=${item.image}>
+            <span class="card-title">${item.name}(${item.userName})</span>
+          </div>
+          <div class="card-action">
+            <a id=${item.profileId} onclick="seeUser(this.id)" href="#">${item.userName}</a>
+          </div>
+        </div>
+      </div>
+      
+      `;
+    });
+    row.innerHTML += `
+    <div class="fixed-action-btn ">
+    <a onclick="openForm()" class="btn-floating btn-large blue">
+      <i class="large material-icons">add</i>
+    </a>
+  </div>
+    `;
+    app.appendChild(row);
+  },
+  renderThumbnailForm() {
+    app.innerHTML = '';
+    app.innerHTML = `  <div class="row container">
+        <h1>Add Profile</h1>
+        <form id="thumbnailForm"class="col s6 offset-by-3">
+          <div class="row">
+            <div class="input-field col s6">
+              <input placeholder="Placeholder" id="name" type="text" class="validate">
+              <label for="name">Full Name</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="userName" type="text" class="validate">
+              <label for="userName">User Name</label>
+            </div>
+          </div>
+        <div class="row">
+        <div class="input-field col s12">
+            <input id="image" type="text" class="validate">
+            <label for="image">Image-URL</label>
+        </div>
+      </div>
+      <input type="submit" value="submit" class="waves-effect waves-light blue btn">
+      <a onclick="goHome()" class="waves-effect waves-light btn blue"><i class="material-icons left">home</i>button</a>
+      </div>
+      </form>
+      </div>`;
   }
 };

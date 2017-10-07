@@ -1,6 +1,10 @@
 export default {
   model: {},
   view: {},
+  thumbnailModel: {},
+  setThumbModel(model) {
+    this.thumbnailModel = model;
+  },
   setView(view) {
     this.view = view;
   },
@@ -16,15 +20,11 @@ export default {
       cb(null, result);
     });
   },
-  addUser(form) {
+  addUser(form, cb) {
     this.model.create(form, (error, msg) => {
       if (error) {
-        console.log('error in creating user');
       } else {
-        console.log(msg);
-        this.readAll((err, result) => {
-          if (err) throw err;
-        });
+        cb(null, msg);
       }
     });
   },
@@ -62,6 +62,28 @@ export default {
   renderSelectedUser(id) {
     this.model.read(id).then(user => {
       this.view.renderSelectedUser(user);
+    });
+  },
+  renderThumbnail() {
+    this.thumbnailModel.readAll((error, thumb) => {
+      if (error) throw error;
+      this.view.renderUserThumbnails(thumb);
+    });
+  },
+  renderThumbnailForm(cb) {
+    this.view.renderThumbnailForm();
+    cb();
+  },
+  addThumbnail(form, cb) {
+    this.thumbnailModel.create(form, (err, result) => {
+      if (err) throw err;
+      cb(null, result);
+    });
+  },
+  updateThumbnail(id, user, cb) {
+    this.thumbnailModel.update(id, user, (error, result) => {
+      if (error) throw error;
+      cb(null, result);
     });
   }
 };
