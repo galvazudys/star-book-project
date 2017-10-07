@@ -62,9 +62,88 @@ window.onload = () => {
 
   window.deleteUser = e => {
     const id = e.parentNode.id;
+    controller.readUser(id, (err, user) => {
+      if (err) throw err;
+      controller.readThumbnail(user.cardId, (err, thumb) => {
+        if (err) throw err;
+        if (!thumb.deleted) {
+          const defaultUser = {
+            name: 'please edit name',
+            userName: 'lease edit userName',
+            email: 'example@example.com',
+            age: parseInt('99'),
+            location: 'please edit your location',
+            hobies: 'please add some hobbies',
+            cardId: thumb.id,
+            image: 'http://lorempixel.com/640/480',
+            deleted: true
+          };
+          controller.updateUser(id, defaultUser, (err, result) => {
+            if (err) throw err;
+            controller.renderThumbnail();
+          });
+        } else {
+          controller.deleteUser(id, (err, result) => {
+            if (err) throw err;
+            controller.deleteThumbnail(thumb.id, (err, data) => {
+              if (err) throw err;
+              controller.renderThumbnail();
+            });
+          });
+        }
+      });
+    });
     controller.deleteUser(id, (error, result) => {
       if (error) throw error;
       controller.renderUsers();
+    });
+  };
+  window.updateThumbnail = id => {
+    controller.renderThumbnailUpdate(id, (err, thumb) => {
+      const form = document.getElementById('thumbnailForm');
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        let thumbForm = {
+          name: e.target[0].value,
+          userName: e.target[1].value,
+          image: e.target[2].value,
+          profileId: thumb.profileId
+        };
+        controller.updateThumbnail(id, thumbForm, (err, data) => {
+          if (err) throw err;
+          controller.renderSelectedUser(thumb.profileId);
+        });
+      });
+    });
+  };
+  window.deleteThumbnail = id => {
+    controller.readThumbnail(id, (error, data) => {
+      if (error) throw err;
+      controller.readUser(data.profileId, (err, user) => {
+        if (err) throw err;
+        if (!user.deleted) {
+          const defaultThumbnail = {
+            name: 'No Name',
+            userName: 'only User form',
+            image:
+              'http://dsi-vd.github.io/patternlab-vd/images/fpo_avatar.png',
+            profileId: user.id,
+            deleted: true
+          };
+          controller.updateThumbnail(id, defaultThumbnail, (err, data) => {
+            if (err) throw err;
+            controller.renderSelectedUser(user.id);
+          });
+        } else {
+          controller.deleteThumbnail(id, (err, result) => {
+            if (err) throw err;
+            controller.deleteUser(user.id, (err, result) => {
+              if (err) throw err;
+              controller.renderThumbnail();
+            });
+          });
+        }
+      });
     });
   };
 

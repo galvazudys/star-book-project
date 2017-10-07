@@ -74,6 +74,11 @@ export default {
     this.view.renderThumbnailForm();
     cb();
   },
+  readThumbnail(id, cb) {
+    this.thumbnailModel.read(id).then(data => {
+      cb(null, data);
+    });
+  },
   addThumbnail(form, cb) {
     this.thumbnailModel.create(form, (err, result) => {
       if (err) throw err;
@@ -84,6 +89,18 @@ export default {
     this.thumbnailModel.update(id, user, (error, result) => {
       if (error) throw error;
       cb(null, result);
+    });
+  },
+  deleteThumbnail(id, cb) {
+    this.thumbnailModel.remove(id, (err, result) => {
+      if (err) throw err;
+      cb(null, result);
+    });
+  },
+  renderThumbnailUpdate(id, cb) {
+    this.thumbnailModel.read(id).then(thumb => {
+      this.view.renderUpdateThumbnailForm(thumb);
+      cb(null, thumb);
     });
   }
 };
