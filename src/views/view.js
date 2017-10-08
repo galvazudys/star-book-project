@@ -67,7 +67,8 @@ export default {
     `;
     app.appendChild(ul);
   },
-  renderSelectedUser(user) {
+  renderSelectedUser(user, status) {
+    console.log(status);
     app.innerHTML = '';
     app.innerHTML = `
         <div class="container row">
@@ -95,6 +96,19 @@ export default {
         </ul>
       </div>
     `;
+    status.forEach(item => {
+      app.innerHTML += `
+      <div class="col s6 m5">
+        <div class="card-panel teal lighten-4">
+          <h5>${user.name} Status</h5>
+          <hr>
+          <span class="red-text">
+          ${item.message}
+          </span>
+        </div>
+      </div>
+      `;
+    });
   },
   renderUpdateUser(user) {
     app.innerHTML = '';
@@ -143,7 +157,8 @@ export default {
       </form>
       </div>`;
   },
-  renderUserThumbnails(thumbnails) {
+  renderUserThumbnails(thumbnails, status) {
+    console.log(status);
     app.innerHTML = '';
     const row = document.createElement('div');
     row.setAttribute('class', 'row');
