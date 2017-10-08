@@ -2,11 +2,13 @@ import user from './models/userModel';
 import controller from './controllers/controller';
 import view from './views/view';
 import thumbnailModel from './models/thumbnailModel';
+import statusModel from './models/statusModel';
 
 window.onload = () => {
   controller.setModel(user);
   controller.setView(view);
   controller.setThumbModel(thumbnailModel);
+  controller.setStatusModel(statusModel);
 
   controller.renderThumbnail();
 
@@ -171,6 +173,33 @@ window.onload = () => {
           });
         });
       });
+    });
+  };
+  window.addStatus = id => {
+    let msg = document.getElementById('textarea1').value;
+    controller.readUser(id, (err, user) => {
+      if (err) throw err;
+      const status = {
+        profileId: id,
+        message: msg,
+        userName: user.userName
+      };
+      controller.addStatus(status, (error, result) => {
+        if (error) throw error;
+
+        user.status.push(result.result.id);
+        controller.updateUser(id, user, (er, data) => {
+          if (er) throw er;
+          controller.renderSelectedUser(id);
+        });
+        // result.result.id
+      });
+    });
+  };
+  window.deleteStatus = id => {
+    controller.removeStatus(id, (err, data) => {
+      if (err) throw err;
+      controller.renderSelectedUser(data.object[0].profileId);
     });
   };
 };

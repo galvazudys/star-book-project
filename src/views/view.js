@@ -67,7 +67,8 @@ export default {
     `;
     app.appendChild(ul);
   },
-  renderSelectedUser(user) {
+  renderSelectedUser(user, status) {
+    const revStatus = status.reverse();
     app.innerHTML = '';
     app.innerHTML = `
         <div class="container row">
@@ -81,6 +82,11 @@ export default {
             <div > <strong>Likes To DO : </strong><span>${user.hobies}</span></div>                    
             <a id=${user.cardId} onclick="deleteThumbnail(this.id)" href="#!" class="btn blue"> delete thumbnail</a>
             <a id=${user.cardId} onclick="updateThumbnail(this.id)" href="#!" class="btn blue"> update thumbnail</a>
+            <div class="input-field col s8">
+              <textarea id="textarea1" class="materialize-textarea"></textarea>
+              <label for="textarea1">Textarea</label>
+              <a href="#!" id=${user.id} onclick="addStatus(this.id)" class="btn blue"><i class="material-icons">comments</i> update status</a>
+            </div>
           </div>    
         </div>
 
@@ -95,6 +101,26 @@ export default {
         </ul>
       </div>
     `;
+
+    revStatus.forEach(item => {
+      app.innerHTML += `
+      <div class="row">
+      <div class="col s8 offset-s2">
+        <div class="card-panel teal lighten-4">
+          <h5>${user.name} Status</h5>
+          <hr>
+          <span class="black-text">
+          ${item.message}
+          </span>
+          <hr>
+          <div>
+             <a id=${item.id} onclick="deleteStatus(this.id)" class="right-align btn red" href="#!">delete Post</a>          
+          </div>
+        </div>
+      </div>
+      </div>
+      `;
+    });
   },
   renderUpdateUser(user) {
     app.innerHTML = '';
@@ -143,32 +169,54 @@ export default {
       </form>
       </div>`;
   },
-  renderUserThumbnails(thumbnails) {
+  renderUserThumbnails(thumbnails, status) {
+    const reverseStatus = status.reverse();
     app.innerHTML = '';
     const row = document.createElement('div');
+    const container = document.createElement('div');
+    const statusContainer = document.createElement('div');
+    const ul = document.createElement('ul');
+    const statusUl = document.createElement('ul');
+    statusUl.setAttribute('class', 'collection');
+    statusContainer.setAttribute('class', 'col s8');
     row.setAttribute('class', 'row');
+    container.setAttribute('class', 'col s4');
+    ul.setAttribute('class', 'collection');
+    reverseStatus.forEach(stat => {
+      statusUl.innerHTML += `
+      <li class="collection-item avatar">
+        <span  class="title"><h5>${stat.userName}</h5></span>
+        <p>
+          ${stat.message}
+        </p>
+        <a href="#!" id=${stat.profileId} onclick="seeUser(this.id)" class="secondary-content"><i class="material-icons">remove_red_eye</i></a>
+      </li>
+      `;
+    });
     thumbnails.forEach(item => {
-      row.innerHTML += `
-      <div class="col s3">
-        <div class="card">
-          <div class="card-image">
-            <img src=${item.image}>
-            <span class="card-title">${item.name}(${item.userName})</span>
-          </div>
-          <div class="card-action">
-            <a id=${item.profileId} onclick="seeUser(this.id)" href="#">${item.userName}</a>
-          </div>
-        </div>
-      </div>
+      ul.innerHTML += `
+      <li class="collection-item avatar">
+          <img src=${item.image} alt="" class="circle">
+          <span class="title">${item.name}</span>
+          <p>
+            ${item.userName}
+          </p>
+          <a href="#!"id=${item.profileId} onclick="seeUser(this.id)" class="secondary-content"><i class="material-icons">remove_red_eye</i></a>
+      </li>
       
       `;
     });
+    statusContainer.appendChild(statusUl);
+    container.appendChild(ul);
+    row.appendChild(container);
+    row.appendChild(statusContainer);
+
     row.innerHTML += `
     <div class="fixed-action-btn ">
-    <a onclick="openForm()" class="btn-floating btn-large blue">
-      <i class="large material-icons">add</i>
-    </a>
-  </div>
+      <a onclick="openForm()" class="btn-floating btn-large blue">
+        <i class="large material-icons">add</i>
+      </a>
+    </div>
     `;
     app.appendChild(row);
   },

@@ -2,6 +2,10 @@ export default {
   model: {},
   view: {},
   thumbnailModel: {},
+  statusModel: {},
+  setStatusModel(model) {
+    this.statusModel = model;
+  },
   setThumbModel(model) {
     this.thumbnailModel = model;
   },
@@ -14,6 +18,29 @@ export default {
   renderForm(cb) {
     this.view.renderForm();
     cb();
+  },
+  readStatus(id, cb) {
+    this.statusModel.read(id).then(item => {
+      cb(null, item);
+    });
+  },
+  readAllStatus(cb) {
+    this.statusModel.readAll((err, status) => {
+      if (err) throw err;
+      cb(null, status);
+    });
+  },
+  addStatus(status, cb) {
+    this.statusModel.create(status, (err, result) => {
+      if (err) throw err;
+      cb(null, result);
+    });
+  },
+  removeStatus(id, cb) {
+    this.statusModel.remove(id, (err, result) => {
+      if (err) throw err;
+      cb(null, result);
+    });
   },
   readUser(id, cb) {
     this.model.read(id).then(result => {
@@ -61,13 +88,19 @@ export default {
   },
   renderSelectedUser(id) {
     this.model.read(id).then(user => {
-      this.view.renderSelectedUser(user);
+      this.statusModel.search(id, (err, status) => {
+        if (err) throw err;
+        this.view.renderSelectedUser(user, status);
+      });
     });
   },
   renderThumbnail() {
     this.thumbnailModel.readAll((error, thumb) => {
       if (error) throw error;
-      this.view.renderUserThumbnails(thumb);
+      this.readAllStatus((err, status) => {
+        if (err) throw err;
+        this.view.renderUserThumbnails(thumb, status);
+      });
     });
   },
   renderThumbnailForm(cb) {
