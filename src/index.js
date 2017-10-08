@@ -175,4 +175,31 @@ window.onload = () => {
       });
     });
   };
+  window.addStatus = id => {
+    let msg = document.getElementById('textarea1').value;
+    controller.readUser(id, (err, user) => {
+      if (err) throw err;
+      const status = {
+        profileId: id,
+        message: msg,
+        userName: user.userName
+      };
+      controller.addStatus(status, (error, result) => {
+        if (error) throw error;
+
+        user.status.push(result.result.id);
+        controller.updateUser(id, user, (er, data) => {
+          if (er) throw er;
+          controller.renderSelectedUser(id);
+        });
+        // result.result.id
+      });
+    });
+  };
+  window.deleteStatus = id => {
+    controller.removeStatus(id, (err, data) => {
+      if (err) throw err;
+      controller.renderSelectedUser(data.object[0].profileId);
+    });
+  };
 };

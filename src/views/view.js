@@ -68,7 +68,7 @@ export default {
     app.appendChild(ul);
   },
   renderSelectedUser(user, status) {
-    console.log(status);
+    const revStatus = status.reverse();
     app.innerHTML = '';
     app.innerHTML = `
         <div class="container row">
@@ -82,6 +82,11 @@ export default {
             <div > <strong>Likes To DO : </strong><span>${user.hobies}</span></div>                    
             <a id=${user.cardId} onclick="deleteThumbnail(this.id)" href="#!" class="btn blue"> delete thumbnail</a>
             <a id=${user.cardId} onclick="updateThumbnail(this.id)" href="#!" class="btn blue"> update thumbnail</a>
+            <div class="input-field col s8">
+              <textarea id="textarea1" class="materialize-textarea"></textarea>
+              <label for="textarea1">Textarea</label>
+              <a href="#!" id=${user.id} onclick="addStatus(this.id)" class="btn blue"><i class="material-icons">comments</i> update status</a>
+            </div>
           </div>    
         </div>
 
@@ -96,7 +101,8 @@ export default {
         </ul>
       </div>
     `;
-    status.forEach(item => {
+
+    revStatus.forEach(item => {
       app.innerHTML += `
       <div class="row">
       <div class="col s8 offset-s2">
@@ -106,6 +112,10 @@ export default {
           <span class="black-text">
           ${item.message}
           </span>
+          <hr>
+          <div>
+             <a id=${item.id} onclick="deleteStatus(this.id)" class="right-align btn red" href="#!">delete Post</a>          
+          </div>
         </div>
       </div>
       </div>

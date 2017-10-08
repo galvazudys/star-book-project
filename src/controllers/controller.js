@@ -30,6 +30,18 @@ export default {
       cb(null, status);
     });
   },
+  addStatus(status, cb) {
+    this.statusModel.create(status, (err, result) => {
+      if (err) throw err;
+      cb(null, result);
+    });
+  },
+  removeStatus(id, cb) {
+    this.statusModel.remove(id, (err, result) => {
+      if (err) throw err;
+      cb(null, result);
+    });
+  },
   readUser(id, cb) {
     this.model.read(id).then(result => {
       cb(null, result);
