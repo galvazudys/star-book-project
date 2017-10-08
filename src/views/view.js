@@ -73,15 +73,17 @@ export default {
         <div class="container row">
           <div class="col s8">
             <img src=${user.image}>
-            <div class="card-panel purple lighten-3"><strong>Name: </strong><span>${user.name}</span></div>
-            <div class="card-panel purple lighten-3"><strong>User Name : </strong><span>${user.userName}</span></div>            
-            <div class="card-panel purple lighten-3"><strong>Email: </strong> <span>${user.email}</span></div>            
-            <div class="card-panel purple lighten-3"><strong>Age: </strong> <span>${user.age}</span></div>            
-            <div class="card-panel purple lighten-3"><strong>Location: </strong> <span>${user.location}</span></div>            
-            <div class="card-panel purple lighten-3"> <strong>Likes To DO : </strong><span>${user.hobies}</span></div>                    
+            <div ><strong>Name: </strong><span>${user.name}</span></div>
+            <div ><strong>User Name : </strong><span>${user.userName}</span></div>            
+            <div ><strong>Email: </strong> <span>${user.email}</span></div>            
+            <div ><strong>Age: </strong> <span>${user.age}</span></div>            
+            <div ><strong>Location: </strong> <span>${user.location}</span></div>            
+            <div > <strong>Likes To DO : </strong><span>${user.hobies}</span></div>                    
+            <a id=${user.cardId} onclick="deleteThumbnail(this.id)" href="#!" class="btn blue"> delete thumbnail</a>
+            <a id=${user.cardId} onclick="updateThumbnail(this.id)" href="#!" class="btn blue"> update thumbnail</a>
           </div>    
         </div>
-        
+
         <div class="fixed-action-btn toolbar">
         <a class="btn-floating btn-large blue">
           <i class="large material-icons">dehaze</i>
@@ -136,6 +138,89 @@ export default {
         </div>
       </div>
       <input type="submit" value="update" class="waves-effect waves-light blue btn">
+      <a onclick="goHome()" class="waves-effect waves-light btn blue"><i class="material-icons left">home</i>button</a>
+      </div>
+      </form>
+      </div>`;
+  },
+  renderUserThumbnails(thumbnails) {
+    app.innerHTML = '';
+    const row = document.createElement('div');
+    row.setAttribute('class', 'row');
+    thumbnails.forEach(item => {
+      row.innerHTML += `
+      <div class="col s3">
+        <div class="card">
+          <div class="card-image">
+            <img src=${item.image}>
+            <span class="card-title">${item.name}(${item.userName})</span>
+          </div>
+          <div class="card-action">
+            <a id=${item.profileId} onclick="seeUser(this.id)" href="#">${item.userName}</a>
+          </div>
+        </div>
+      </div>
+      
+      `;
+    });
+    row.innerHTML += `
+    <div class="fixed-action-btn ">
+    <a onclick="openForm()" class="btn-floating btn-large blue">
+      <i class="large material-icons">add</i>
+    </a>
+  </div>
+    `;
+    app.appendChild(row);
+  },
+  renderThumbnailForm() {
+    app.innerHTML = '';
+    app.innerHTML = `  <div class="row container">
+        <h1>Add Profile</h1>
+        <form id="thumbnailForm"class="col s6 offset-by-3">
+          <div class="row">
+            <div class="input-field col s6">
+              <input placeholder="Placeholder" id="name" type="text" class="validate">
+              <label for="name">Full Name</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="userName" type="text" class="validate">
+              <label for="userName">User Name</label>
+            </div>
+          </div>
+        <div class="row">
+        <div class="input-field col s12">
+            <input id="image" type="text" class="validate">
+            <label for="image">Image-URL</label>
+        </div>
+      </div>
+      <input type="submit" value="submit" class="waves-effect waves-light blue btn">
+      <a onclick="goHome()" class="waves-effect waves-light btn blue"><i class="material-icons left">home</i>button</a>
+      </div>
+      </form>
+      </div>`;
+  },
+  renderUpdateThumbnailForm(thumbnail) {
+    app.innerHTML = '';
+    app.innerHTML = `  <div class="row container">
+        <h3>update thumbnail of ${thumbnail.userName}</h3>
+        <form id="thumbnailForm"class="col s6 offset-by-3">
+          <div class="row">
+            <div class="input-field col s6">
+              <input placeholder="Placeholder" value=${thumbnail.name} id="name" type="text" class="validate">
+              <label class="active" for="name">Full Name</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="userName" value=${thumbnail.userName} type="text" class="validate">
+              <label class="active" for="userName">User Name</label>
+            </div>
+          </div>
+        <div class="row">
+        <div class="input-field col s12">
+            <input id="image" value=${thumbnail.image} type="text" class="validate">
+            <label class="active" for="image">Image-URL</label>
+        </div>
+      </div>
+      <input type="submit" value="submit" class="waves-effect waves-light blue btn">
       <a onclick="goHome()" class="waves-effect waves-light btn blue"><i class="material-icons left">home</i>button</a>
       </div>
       </form>

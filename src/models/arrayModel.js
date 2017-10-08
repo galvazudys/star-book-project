@@ -28,7 +28,7 @@ export default {
         ) {
           result.id = id;
           this.db.push(result);
-          callBack(null, { message: 'success' });
+          callBack(null, { message: 'success', result });
         } else {
           while (
             this.db.find(x => {
@@ -39,8 +39,9 @@ export default {
           ) {
             id = faker.random.uuid();
           }
-          this.db.push({ name: result, id: id });
-          callBack(null, { message: 'success' });
+          result.id = id;
+          this.db.push(result);
+          callBack(null, { message: 'success', result });
         }
       }
     });
